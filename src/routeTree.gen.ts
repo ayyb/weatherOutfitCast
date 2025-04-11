@@ -14,6 +14,8 @@ import { Route as rootRoute } from './routes/__root'
 import { Route as WeatherImport } from './routes/weather'
 import { Route as ReportImport } from './routes/report'
 import { Route as RecordImport } from './routes/record'
+import { Route as RecommendImport } from './routes/recommend'
+import { Route as ProfileImport } from './routes/profile'
 import { Route as IndexImport } from './routes/index'
 import { Route as IndexIndexImport } from './routes/index/index'
 
@@ -34,6 +36,18 @@ const ReportRoute = ReportImport.update({
 const RecordRoute = RecordImport.update({
   id: '/record',
   path: '/record',
+  getParentRoute: () => rootRoute,
+} as any)
+
+const RecommendRoute = RecommendImport.update({
+  id: '/recommend',
+  path: '/recommend',
+  getParentRoute: () => rootRoute,
+} as any)
+
+const ProfileRoute = ProfileImport.update({
+  id: '/profile',
+  path: '/profile',
   getParentRoute: () => rootRoute,
 } as any)
 
@@ -58,6 +72,20 @@ declare module '@tanstack/react-router' {
       path: '/'
       fullPath: '/'
       preLoaderRoute: typeof IndexImport
+      parentRoute: typeof rootRoute
+    }
+    '/profile': {
+      id: '/profile'
+      path: '/profile'
+      fullPath: '/profile'
+      preLoaderRoute: typeof ProfileImport
+      parentRoute: typeof rootRoute
+    }
+    '/recommend': {
+      id: '/recommend'
+      path: '/recommend'
+      fullPath: '/recommend'
+      preLoaderRoute: typeof RecommendImport
       parentRoute: typeof rootRoute
     }
     '/record': {
@@ -95,6 +123,8 @@ declare module '@tanstack/react-router' {
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/profile': typeof ProfileRoute
+  '/recommend': typeof RecommendRoute
   '/record': typeof RecordRoute
   '/report': typeof ReportRoute
   '/weather': typeof WeatherRoute
@@ -103,6 +133,8 @@ export interface FileRoutesByFullPath {
 
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/profile': typeof ProfileRoute
+  '/recommend': typeof RecommendRoute
   '/record': typeof RecordRoute
   '/report': typeof ReportRoute
   '/weather': typeof WeatherRoute
@@ -112,6 +144,8 @@ export interface FileRoutesByTo {
 export interface FileRoutesById {
   __root__: typeof rootRoute
   '/': typeof IndexRoute
+  '/profile': typeof ProfileRoute
+  '/recommend': typeof RecommendRoute
   '/record': typeof RecordRoute
   '/report': typeof ReportRoute
   '/weather': typeof WeatherRoute
@@ -120,15 +154,39 @@ export interface FileRoutesById {
 
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/record' | '/report' | '/weather' | '/index'
+  fullPaths:
+    | '/'
+    | '/profile'
+    | '/recommend'
+    | '/record'
+    | '/report'
+    | '/weather'
+    | '/index'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/record' | '/report' | '/weather' | '/index'
-  id: '__root__' | '/' | '/record' | '/report' | '/weather' | '/index/'
+  to:
+    | '/'
+    | '/profile'
+    | '/recommend'
+    | '/record'
+    | '/report'
+    | '/weather'
+    | '/index'
+  id:
+    | '__root__'
+    | '/'
+    | '/profile'
+    | '/recommend'
+    | '/record'
+    | '/report'
+    | '/weather'
+    | '/index/'
   fileRoutesById: FileRoutesById
 }
 
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  ProfileRoute: typeof ProfileRoute
+  RecommendRoute: typeof RecommendRoute
   RecordRoute: typeof RecordRoute
   ReportRoute: typeof ReportRoute
   WeatherRoute: typeof WeatherRoute
@@ -137,6 +195,8 @@ export interface RootRouteChildren {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  ProfileRoute: ProfileRoute,
+  RecommendRoute: RecommendRoute,
   RecordRoute: RecordRoute,
   ReportRoute: ReportRoute,
   WeatherRoute: WeatherRoute,
@@ -154,6 +214,8 @@ export const routeTree = rootRoute
       "filePath": "__root.tsx",
       "children": [
         "/",
+        "/profile",
+        "/recommend",
         "/record",
         "/report",
         "/weather",
@@ -162,6 +224,12 @@ export const routeTree = rootRoute
     },
     "/": {
       "filePath": "index.tsx"
+    },
+    "/profile": {
+      "filePath": "profile.tsx"
+    },
+    "/recommend": {
+      "filePath": "recommend.tsx"
     },
     "/record": {
       "filePath": "record.tsx"
